@@ -184,7 +184,7 @@ AimPos.z = 15 * cosf(pitchf);
                 }
             }
             // Dynamic AimSmooth based on distance
-            float DistanceRatio = Norm / AimFov; // Calculate the distance ratio
+            float DistanceRatio = Norm / 5; // Calculate the distance ratio
             float SpeedFactor = 1.0f + (1.0f - DistanceRatio); // Determine the speed factor based on the distance ratio
             TargetX /= (Smooth * SpeedFactor);
             TargetY /= (Smooth * SpeedFactor);
