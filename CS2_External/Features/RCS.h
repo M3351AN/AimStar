@@ -73,8 +73,8 @@ namespace RCS
         int ScreenCenterY = Gui.Window.Size.y / 2;
         float TargetX = 0.f;
         float TargetY = 0.f;
-        float yawf = Local.Pawn.Fov.y * M_PI / 180;        
-        float pitchf = Local.Pawn.Fov.x * M_PI / 180;
+        float yawf = Local.Pawn.ViewAngle.y * M_PI / 180;        
+        float pitchf = Local.Pawn.ViewAngle.x * M_PI / 180;
                 
 AimPos.x = cosf(yawf) * sinf(pitchf);
 AimPos.y = sinf(yawf) * sinf(pitchf);
@@ -129,12 +129,8 @@ AimPos.z = cosf(pitchf);
                     TargetY = (TargetY + ScreenCenterY > ScreenCenterY * 2 || TargetY + ScreenCenterY < 0) ? 0 : TargetY;
                 }
             }
-
-            if (!Smooth)
-            {
-                mouse_event(MOUSEEVENTF_MOVE, (DWORD)(TargetX), (DWORD)(TargetY), NULL, NULL);
-                return;
-            }
+        mouse_event(MOUSEEVENTF_MOVE, (DWORD)(TargetX), (DWORD)(TargetY), NULL, NULL);
+        return;
 
     }
 }
