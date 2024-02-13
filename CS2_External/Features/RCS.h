@@ -65,9 +65,6 @@ namespace RCS
 	{
 	if (MenuConfig::ShowMenu)
 		return;
-		
-	if (Local.Pawn.AimPunchAngle.x <= 0.1f)
-	       return;
        if (Local.Pawn.ShotsFired < RCSBullet)
 	       return;
        float Yaw, Pitch;
@@ -80,7 +77,10 @@ namespace RCS
         float TargetY = 0.f;
         float yawf = Local.Pawn.ViewAngle.y * M_PI / 180;        
         float pitchf = Local.Pawn.ViewAngle.x * M_PI / 180;
-                
+                // RCS by @Tairitsu modi. @_ukia_
+        RCS::UpdateAngles(Local, Angles);
+		if (Angles == Vec2(0,0)
+			return;
 AimPos.x = 15 * cosf(yawf) * sinf(pitchf);
 AimPos.y = 15 * sinf(yawf) * sinf(pitchf);
 AimPos.z = 15 * cosf(pitchf);
@@ -91,8 +91,6 @@ AimPos.z = 15 * cosf(pitchf);
         Distance = sqrt(pow(OppPos.x, 2) + pow(OppPos.y, 2));
 
         Length = sqrt(Distance * Distance + OppPos.z * OppPos.z);
-        // RCS by @Tairitsu modi. @_ukia_
-            RCS::UpdateAngles(Local, Angles);
             float rad = Angles.x / 180.f * M_PI;
             float si = sinf(rad);
             float co = cosf(rad);
@@ -121,7 +119,7 @@ AimPos.z = 15 * cosf(pitchf);
             if (ScreenPos.x != ScreenCenterX)
             {
                 TargetX = (ScreenPos.x > ScreenCenterX) ? -(ScreenCenterX - ScreenPos.x) : ScreenPos.x - ScreenCenterX;
-                TargetX /= 1.5f;
+                TargetX /= 1.4f;
                 TargetX = (TargetX + ScreenCenterX > ScreenCenterX * 2 || TargetX + ScreenCenterX < 0) ? 0 : TargetX;
             }
 
@@ -130,7 +128,7 @@ AimPos.z = 15 * cosf(pitchf);
                 if (ScreenPos.y != ScreenCenterY)
                 {
                     TargetY = (ScreenPos.y > ScreenCenterY) ? -(ScreenCenterY - ScreenPos.y) : ScreenPos.y - ScreenCenterY;
-                    TargetY /= 1.5f;
+                    TargetY /= 1.4f;
                     TargetY = (TargetY + ScreenCenterY > ScreenCenterY * 2 || TargetY + ScreenCenterY < 0) ? 0 : TargetY;
                 }
             }
