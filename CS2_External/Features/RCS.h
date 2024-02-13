@@ -80,7 +80,7 @@ namespace RCS
 				viewAngles.x + oldPunch.x - aimPunch.x * 2.f,
 				viewAngles.y + oldPunch.y - aimPunch.y * 2.f,
 			};
-			oldPunch = aimPunch.x * 2.f;
+			oldPunch = aimPunch * 2.f;
 
 			if (newAngles.x > 89.f)
 				newAngles.x = 89.f;
