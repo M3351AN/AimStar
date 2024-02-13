@@ -79,7 +79,7 @@ namespace RCS
 AimPos.x = cosf(yawf) * sinf(pitchf);
 AimPos.y = sinf(yawf) * sinf(pitchf);
 AimPos.z = cosf(pitchf);
-
+AimPos += LocalPos;
 
         OppPos = AimPos - LocalPos;
 
