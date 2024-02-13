@@ -129,6 +129,7 @@ namespace RCS
         int ScreenCenterY = Gui.Window.Size.y / 2;
         float TargetX = 0.f;
         float TargetY = 0.f;
+	float Smooth = 1.4f;
         float yawf = Local.Pawn.ViewAngle.y * M_PI / 180;        
         float pitchf = Local.Pawn.ViewAngle.x * M_PI / 180;
                 // RCS by @Tairitsu modi. @_ukia_
@@ -182,8 +183,30 @@ AimPos.z = 15 * cosf(pitchf);
                     TargetY = (TargetY + ScreenCenterY > ScreenCenterY * 2 || TargetY + ScreenCenterY < 0) ? 0 : TargetY;
                 }
             }
-        mouse_event(MOUSEEVENTF_MOVE, TargetX, TargetY, NULL, NULL);
-        return;
+            // Dynamic AimSmooth based on distance
+            float DistanceRatio = Norm / AimFov; // Calculate the distance ratio
+            float SpeedFactor = 1.0f + (1.0f - DistanceRatio); // Determine the speed factor based on the distance ratio
+            TargetX /= (Smooth * SpeedFactor);
+            TargetY /= (Smooth * SpeedFactor);
+            // by Skarbor
+            
+            if (ScreenPos.x != ScreenCenterX)
+            {
+                TargetX = (ScreenPos.x > ScreenCenterX) ? -(ScreenCenterX - ScreenPos.x) : ScreenPos.x - ScreenCenterX;
+                TargetX /= Smooth != 0.0f ? Smooth : 1.5f;
+                TargetX = (TargetX + ScreenCenterX > ScreenCenterX * 2 || TargetX + ScreenCenterX < 0) ? 0 : TargetX;
+            }
+
+            if (ScreenPos.y != 0)
+            {
+                if (ScreenPos.y != ScreenCenterY)
+                {
+                    TargetY = (ScreenPos.y > ScreenCenterY) ? -(ScreenCenterY - ScreenPos.y) : ScreenPos.y - ScreenCenterY;
+                    TargetY /= Smooth != 0.0f ? Smooth : 1.5f;
+                    TargetY = (TargetY + ScreenCenterY > ScreenCenterY * 2 || TargetY + ScreenCenterY < 0) ? 0 : TargetY;
+                }
+            }
+            mouse_event(MOUSEEVENTF_MOVE, TargetX, TargetY, NULL, NULL);
 
     }
 }
