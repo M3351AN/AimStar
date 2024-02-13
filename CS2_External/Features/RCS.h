@@ -63,6 +63,8 @@ namespace RCS
 	}
     inline void StandaloneRCS(const CEntity& Local, Vec3 LocalPos)
 	{
+	if (MenuConfig::ShowMenu)
+		return;
        if (!Local.Pawn.ShotsFired > RCSBullet)
 	       return;
        float Yaw, Pitch;
