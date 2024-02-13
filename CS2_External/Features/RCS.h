@@ -79,7 +79,7 @@ namespace RCS
         float pitchf = Local.Pawn.ViewAngle.x * M_PI / 180;
                 // RCS by @Tairitsu modi. @_ukia_
         RCS::UpdateAngles(Local, Angles);
-		if (Angles == Vec2(0,0))
+		if (Angles.y == 0)
 			return;
 AimPos.x = 15 * cosf(yawf) * sinf(pitchf);
 AimPos.y = 15 * sinf(yawf) * sinf(pitchf);
@@ -109,10 +109,6 @@ AimPos.z = 15 * cosf(pitchf);
 
             AimPos = LocalPos + OppPos;
 
-        Yaw = atan2f(OppPos.y, OppPos.x) * 57.295779513 - Local.Pawn.ViewAngle.y;
-        Pitch = -atan(OppPos.z / Distance) * 57.295779513 - Local.Pawn.ViewAngle.x;
-        Norm = sqrt(pow(Yaw, 2) + pow(Pitch, 2));
-
         Vec2 ScreenPos;
         gGame.View.WorldToScreen(Vec3(AimPos), ScreenPos);
         // Shake Fixed by @Sweely
@@ -132,7 +128,7 @@ AimPos.z = 15 * cosf(pitchf);
                     TargetY = (TargetY + ScreenCenterY > ScreenCenterY * 2 || TargetY + ScreenCenterY < 0) ? 0 : TargetY;
                 }
             }
-        mouse_event(MOUSEEVENTF_MOVE, (DWORD)(TargetX), (DWORD)(TargetY), NULL, NULL);
+        mouse_event(MOUSEEVENTF_MOVE, TargetX, TargetY, NULL, NULL);
         return;
 
     }
