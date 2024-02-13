@@ -79,7 +79,7 @@ namespace RCS
         float pitchf = Local.Pawn.ViewAngle.x * M_PI / 180;
                 // RCS by @Tairitsu modi. @_ukia_
         RCS::UpdateAngles(Local, Angles);
-		if (Angles == Vec2(0,0)
+		if (Angles == Vec2(0,0))
 			return;
 AimPos.x = 15 * cosf(yawf) * sinf(pitchf);
 AimPos.y = 15 * sinf(yawf) * sinf(pitchf);
