@@ -331,7 +331,7 @@ void Cheats::Run()
 			lastTick = currentTick;
 		}
 	}
-	if (MenuConfig::RCS && AimPos == Vec3(0, 0, 0))
+	if (MenuConfig::RCS && (AimPos == Vec3(0, 0, 0) ||!(MenuConfig::AimBot)))
 	{
 		RCS::StandaloneRCS(LocalEntity, LocalEntity.Pawn.CameraPos);
 	}
