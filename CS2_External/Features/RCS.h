@@ -163,6 +163,9 @@ AimPos.z = 15 * cosf(pitchf);
             OppPos = Vec3{ x, y, z };
 
             AimPos = LocalPos + OppPos;
+Yaw = atan2f(OppPos.y, OppPos.x) * 57.295779513 - Local.Pawn.ViewAngle.y;
+Pitch = -atan(OppPos.z / Distance) * 57.295779513 - Local.Pawn.ViewAngle.x;
+Norm = sqrt(pow(Yaw, 2) + pow(Pitch, 2));
 
         Vec2 ScreenPos;
         gGame.View.WorldToScreen(Vec3(AimPos), ScreenPos);
