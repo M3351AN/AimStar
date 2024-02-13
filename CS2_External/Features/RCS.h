@@ -65,7 +65,10 @@ namespace RCS
 	{
 	if (MenuConfig::ShowMenu)
 		return;
-       if (Local.Pawn.ShotsFired <= RCSBullet)
+		
+	if (Local.Pawn.AimPunchAngle.x <= 0.1f)
+	       return;
+       if (Local.Pawn.ShotsFired < RCSBullet)
 	       return;
        float Yaw, Pitch;
         float Distance, Norm, Length;
