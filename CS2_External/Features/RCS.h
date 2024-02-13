@@ -82,23 +82,20 @@ AimPos.z = cosf(pitchf);
 
 
         OppPos = AimPos;
-	AimPos += LocalPos;
 
         Distance = sqrt(pow(OppPos.x, 2) + pow(OppPos.y, 2));
 
         Length = sqrt(Distance * Distance + OppPos.z * OppPos.z);
         // RCS by @Tairitsu modi. @_ukia_
-        if (MenuConfig::RCS)
-        {
             RCS::UpdateAngles(Local, Angles);
-            float rad = Angles.x * RCSScale.x / 180.f * M_PI;
+            float rad = Angles.x / 180.f * M_PI;
             float si = sinf(rad);
             float co = cosf(rad);
 
             float z = OppPos.z * co + Distance * si;
             float d = (Distance * co - OppPos.z * si) / Distance;
 
-            rad = -Angles.y * RCSScale.y / 180.f * M_PI;
+            rad = -Angles.y / 180.f * M_PI;
             si = sinf(rad);
             co = cosf(rad);
 
@@ -108,7 +105,6 @@ AimPos.z = cosf(pitchf);
             OppPos = Vec3{ x, y, z };
 
             AimPos = LocalPos + OppPos;
-        }
 
         Yaw = atan2f(OppPos.y, OppPos.x) * 57.295779513 - Local.Pawn.ViewAngle.y;
         Pitch = -atan(OppPos.z / Distance) * 57.295779513 - Local.Pawn.ViewAngle.x;
