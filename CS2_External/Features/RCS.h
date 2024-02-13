@@ -63,7 +63,8 @@ namespace RCS
 	}
     inline void StandaloneRCS(const CEntity& Local, Vec3 LocalPos)
 	{
-       
+       if (!Local.Pawn.ShotsFired > RCSBullet)
+	       return;
        float Yaw, Pitch;
         float Distance, Norm, Length;
         Vec3 AimPos, OppPos;
