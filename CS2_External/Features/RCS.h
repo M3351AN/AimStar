@@ -73,8 +73,8 @@ namespace RCS
         int ScreenCenterY = Gui.Window.Size.y / 2;
         float TargetX = 0.f;
         float TargetY = 0.f;
-        float yawf = LocalEntity.Pawn.Fov.y * M_PI / 180;        
-        float pitchf = LocalEntity.Pawn.Fov.x * M_PI / 180;
+        float yawf = Local.Pawn.Fov.y * M_PI / 180;        
+        float pitchf = Local.Pawn.Fov.x * M_PI / 180;
                 
 AimPos.x = cosf(yawf) * sinf(pitchf);
 AimPos.y = sinf(yawf) * sinf(pitchf);
