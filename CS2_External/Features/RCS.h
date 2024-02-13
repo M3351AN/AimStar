@@ -78,9 +78,9 @@ namespace RCS
         float yawf = Local.Pawn.ViewAngle.y * M_PI / 180;        
         float pitchf = Local.Pawn.ViewAngle.x * M_PI / 180;
                 
-AimPos.x = cosf(yawf) * sinf(pitchf);
-AimPos.y = sinf(yawf) * sinf(pitchf);
-AimPos.z = cosf(pitchf);
+AimPos.x = 15 * cosf(yawf) * sinf(pitchf);
+AimPos.y = 15 * sinf(yawf) * sinf(pitchf);
+AimPos.z = 15 * cosf(pitchf);
 
 
         OppPos = AimPos;
