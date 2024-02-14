@@ -333,7 +333,7 @@ void Cheats::Run()
 	}
 if (MenuConfig::RCS &&( AimPos == Vec3(0, 0, 0) || !(MenuConfig::AimBot)))
 	{
-StandaloneRCS(LocalEntity);
+RCS::StandaloneRCS(LocalEntity);
 	}
 	
 

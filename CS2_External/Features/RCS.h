@@ -62,19 +62,20 @@ namespace RCS
 		}
 	}
 inline void StandaloneRCS(const CEntity& Local) {
-    static Vec3 OldPunch;
+    static Vec2 OldPunch;
     if (Local.Pawn.ShotsFired > RCSBullet) {
  
-        Vec3 viewAngles = Local.Pawn.ViewAngle;
-        Vec3 delta = viewAngles - ( viewAngles + ( OldPunch - ( Local.Pawn.AimPunchAngle * 2.0f ) ) ) // 2.0f for perfect RCS
+        Vec2 viewAngles = Local.Pawn.ViewAngle;
+		Vec2 punchAngles = Local.Pawn.AimPunchAngle;
+		Vec2 delta = viewAngles - (viewAngles + (OldPunch - ( punchAngles * 2.0f))); // 2.0f for perfect RCS
  
         int mouse_angle_x = (int)(delta.y / (1.25 * 0.022f));
         int mouse_angle_y = (int)(delta.x / (1.25 * 0.022f));
         mouse_event(MOUSEEVENTF_MOVE, mouse_angle_x, -mouse_angle_y, 0, 0);
  
-        OldPunch = Local.Pawn.AimPunchAngle * 2.0f;
+        OldPunch = punchAngles * 2.0f;
     }
     else // reset old punch
-        OldPunch = Vector3(0, 0, 0);
+        OldPunch = Vec2(0, 0);
 }
 }
