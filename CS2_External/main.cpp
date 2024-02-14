@@ -41,35 +41,15 @@ Contributors:
 */
 
 namespace fs = filesystem;
-bool otp = false;
-string fileName;
+bool nConAlloc = FALSE;
 
-//otp code verify by @_ukia_
-void CodeGenerate(string &time, string &code) {
-  auto now = chrono::system_clock::now();
-  auto now_utc = chrono::system_clock::to_time_t(now);
-  struct tm tm_utc;
-  gmtime_s(&tm_utc, &now_utc);
-  int year = tm_utc.tm_year + 1900;
-  int month = tm_utc.tm_mon + 1;
-  int day = tm_utc.tm_mday;
-  int hour = tm_utc.tm_hour;
-  int minute = tm_utc.tm_min;
-  int sum = year + month + day + hour + minute;
-  int otp = sum ^ 3351 % 10000;
-  time = to_string(year) + "-" + to_string(month) + "-" + to_string(day) + "-" + to_string(hour) + "-" + to_string(minute);
-  code = to_string(otp);
-}
-
-void Exit()
+void Exit(LPVOID lpParam)
 {
-	system("pause");
-	exit(0);
+	if (nConAlloc) FreeConsole();
+	FreeLibraryAndExitThread(static_cast<HMODULE>(lpParam), EXIT_SUCCESS);, EXIT_SUCCESS);
 }
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-void Cheat()
+void Cheat(LPVOID lpParam)
 {
 	Lang::GetCountry(MenuConfig::Country);
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);	//Gets a standard output device handle  
@@ -88,7 +68,7 @@ void Cheat()
 	char documentsPath[MAX_PATH];
 	if (SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, documentsPath) != S_OK) {
 		cerr << "[Info] Error: Failed to get the Documents folder path." << endl;
-		Exit();
+		Exit(lpParam);
 	}
 	MenuConfig::path = documentsPath;
 	MenuConfig::path += "\\AimStar";
@@ -98,15 +78,15 @@ void Cheat()
 	case 1:
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
 		cout << "[ERROR] Please launch the game first!" << endl;
-		Exit();
+		Exit(lpParam);
 	case 2:
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
 		cout << "[ERROR] Failed to hook process, please run the cheat as Administrator (Right click AimStar > Run as Adminstrator)." << endl;
-		Exit();
+		Exit(lpParam);
 	case 3:
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
 		cout << "[ERROR] Failed to get module address." << endl;
-		Exit();
+		Exit(lpParam);
 	default:
 		break;
 	}
@@ -115,14 +95,14 @@ void Cheat()
 	{
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
 		cout << "[ERROR] Failed to update offsets." << endl;
-		Exit();
+		Exit(lpParam);
 	}
 
 	if (!gGame.InitAddress())
 	{
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
 		cout << "[ERROR] Failed to call InitAddress()." << endl;
-		Exit();
+		Exit(lpParam);
 	}
 
 	cout << "[Game] Process ID: " << ProcessMgr.ProcessID << endl;
@@ -141,7 +121,7 @@ void Cheat()
 		else
 		{
 			cerr << "[Info] Error: Failed to create the config directory." << endl;
-			Exit();
+			Exit(lpParam);
 		}
 	}
 
@@ -154,7 +134,7 @@ void Cheat()
 		else
 		{
 			cerr << "[Info] Error: Failed to create the file directory." << endl;
-			Exit();
+			Exit(lpParam);
 		}
 	}
 
@@ -198,121 +178,44 @@ void Cheat()
 	}
 }
 
-int main()
+int DLLMain()
 {
-	const char* tempPath = std::getenv("TMP");
-	if (tempPath != nullptr)
-	{
-		fileName = std::string(tempPath) + "/aimstar";
-
-		ifstream infile(fileName);
-		if (infile.good())
-			otp = true;
-		else
-			otp = false;
-	}
-
-	if (otp)
-	{
-		Cheat();
-	}
-	else
-	{
-		// OTP Window
-		WNDCLASS wc = { 0 };
-		const wchar_t CLASS_NAME[] = L"OTPInputClass";
-
-		wc.lpfnWndProc = WndProc;
-		wc.hInstance = GetModuleHandle(NULL);
-		wc.lpszClassName = CLASS_NAME;
-
-		RegisterClass(&wc);
-
-		HWND hwnd = CreateWindowEx(
-			0, CLASS_NAME, L"Verify", WS_OVERLAPPEDWINDOW,
-			CW_USEDEFAULT, CW_USEDEFAULT, 400, 200,
-			NULL, NULL, GetModuleHandle(NULL), NULL
-		);
-
-		if (hwnd == NULL) {
-			return 0;
-		}
-
-		ShowWindow(hwnd, SW_SHOW);
-
-		MSG msg;
-		while (GetMessage(&msg, NULL, 0, 0)) {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
+	nConAlloc = AllocConsole();
+	Cheat(lpParam);
 }
+DWORD WINAPI MainThread(LPVOID lpParam)
+{
+		Beep(300, 200); //Beep
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
-	if (!otp)
-		cout << "Please enter your OTP code!" << endl;
-	static int RetTimes = 0;
-
-	switch (message) {
-        case WM_CREATE:
-	{
-		CreateWindowW(L"STATIC", L"Please enter your OTP code:",
-			WS_VISIBLE | WS_CHILD | SS_CENTER,
-			50, 20, 300, 20, hwnd, NULL, NULL, NULL);
-		CreateWindowW(L"EDIT", L"",
-			WS_VISIBLE | WS_CHILD | WS_BORDER | ES_AUTOHSCROLL,
-			100, 50, 200, 20, hwnd, (HMENU)2, NULL, NULL);
-		CreateWindowW(L"BUTTON", L"Verify",
-			WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-			215, 90, 70, 30, hwnd, (HMENU)1, NULL, NULL);
-		CreateWindowW(L"BUTTON", L"Get OTP",
-			WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-			115, 90, 70, 30, hwnd, (HMENU)3, NULL, NULL);
-		break;
-	}
-	case WM_COMMAND:
-	{
-		if (LOWORD(wParam) == 1) {
-			wchar_t buffer[10];
-			GetWindowTextW(GetDlgItem(hwnd, 2), buffer, 10);
-			wstring ws(buffer);
-			string input(ws.begin(), ws.end());
-			string time, code;
-			CodeGenerate(time, code);
-
-			if (input != code) {
-				RetTimes++;
-				if (RetTimes < 3) {
-					MessageBox(hwnd, L"OTP code error!!", L"Error", MB_OK | MB_ICONERROR);
-				}
-				else {
-					MessageBox(hwnd, L"Exceeded maximum attempts.", L"Error", MB_OK | MB_ICONERROR);
-					DestroyWindow(hwnd);
-					Exit();
-				}
-			}
-			else {
-				otp = true;
-				std::ofstream outfile(fileName);
-				outfile.close();
-				ShowWindow(hwnd, SW_HIDE);
-				system("cls");
-				Cheat();
-			}
-		}
-		if (LOWORD(wParam) == 3)
+		while (!(GetAsyncKeyState(VK_F11) & 0x01))
 		{
-			ShellExecute(NULL, TEXT("open"), TEXT("https://aimstar.tkm.icu"), NULL, NULL, SW_SHOWNORMAL);
+			Cheat(lpParam);
 		}
-		break;
-	}
-	case WM_DESTROY:
+	
+	Beep(300, 200); //Beep
+	Beep(200, 200); //Boop
+
+	gMem.Clear();
+
+	return Exit(lpParam);
+}
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+	switch (fdwReason)
 	{
-		PostQuitMessage(0);
-		break;
+		case DLL_PROCESS_ATTACH: 
+		{
+			if (auto hEntry = CreateThread(0, 0, MainThread, hinstDLL, 0, 0))
+				CloseHandle(hEntry);
+
+			break;
+		}
+		
+		default:
+		{
+			break;
+		}
 	}
-	default:
-		return DefWindowProc(hwnd, message, wParam, lParam);
-	}
-	return 0;
+
+	return TRUE;
 }
