@@ -178,11 +178,6 @@ void Cheat(LPVOID lpParam)
 	}
 }
 
-int DLLMain()
-{
-	nConAlloc = AllocConsole();
-	Cheat(lpParam);
-}
 DWORD WINAPI MainThread(LPVOID lpParam)
 {
 		Beep(300, 200); //Beep
@@ -195,7 +190,6 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 	Beep(300, 200); //Beep
 	Beep(200, 200); //Boop
 
-	gMem.Clear();
 
 	return Exit(lpParam);
 }
