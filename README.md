@@ -27,12 +27,6 @@ Discord server: [AimShit Club](https://discord.com/invite/VgRrxwesPz)
 
 Most of the code is contributed by users, and the code structure might be very messy. If you try to download and understand the code, you will find a lot of **shitty** logic
 
-中文文档：[Readme CN](https://github.com/CowNowK/AimStar/blob/main/%E8%87%AA%E8%BF%B0%E6%96%87%E6%A1%A3.md)
-
-Русский язык: [Readme RU](https://github.com/CowNowK/AimStar/blob/main/ПРОЧИТАЙМЕНЯ.md)
-
-> **Due to some force majeure disease factors that happened to me personally, I am unable to maintain the repo in time. I apologize for your understanding.**
-
 ## ⚠️ Notice
 
 **Isnt working?** -> [**__COMMON ISSUES__**](https://github.com/CowNowK/AimStar/wiki)
@@ -51,6 +45,7 @@ https://github.com/CowNowK/AimStar/blob/Loader-v1.0.1/Guides/Features.md (Updati
 - Radar
 - Crosshairs
 - No Flash
+- No Smoke
 </details>
 
 <details>
@@ -59,9 +54,11 @@ https://github.com/CowNowK/AimStar/blob/Loader-v1.0.1/Guides/Features.md (Updati
 - Bhop
 - Aimbot
 - Triggerbot
-- Languages Settings
+- Jump Throw
 - Hit Sound
 - Bomb Timer
+- Third Person
+- Spectator List
 </details>
 
 ## ⚠️ Disclamers
@@ -83,7 +80,6 @@ Please read the following advice carefully before using Aimstar.
 ## 💡 Credits
 - Main code forked from [**__Liv__**](https://github.com/TKazer/CS2_External), and **Major help** from Shinyaluvs and Ukia
 - Features copied from UnknownCheats
-  - [Glow](https://www.unknowncheats.me/forum/counter-strike-2-a/604503-glow-external.html)
   - [Weapon Icon](https://www.unknowncheats.me/forum/counter-strike-2-a/608799-weapon-icon-esp.html)
   - [HitSound](https://www.unknowncheats.me/forum/counter-strike-2-releases/607417-hitsound-external.html)
 - Features intergrated from [Aeonix](https://github.com/Fr0go1/Aeonix-Cs2)
